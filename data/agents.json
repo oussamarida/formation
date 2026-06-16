@@ -1,0 +1,76 @@
+[
+  {
+    "id": 1,
+    "matricule": "MEF-04821",
+    "nom": "El Mansouri",
+    "direction": "DRH",
+    "conges": [
+      {
+        "id": "C001",
+        "type": "annuel",
+        "dateDebut": "2026-07-01",
+        "dateFin": "2026-07-10",
+        "jours": 8,
+        "statut": "approuve"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "matricule": "MEF-04822",
+    "nom": "Benali",
+    "direction": "DSI",
+    "conges": [
+      {
+        "id": "C002",
+        "type": "maladie",
+        "dateDebut": "2026-03-15",
+        "dateFin": "2026-03-17",
+        "jours": 3,
+        "statut": "approuve"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "matricule": "MEF-04823",
+    "nom": "Alaoui",
+    "direction": "DAF",
+    "conges": []
+  },
+  {
+    "id": 4,
+    "matricule": "MEF-04824",
+    "nom": "Idrissi",
+    "direction": "DRH",
+    "conges": []
+  },
+  {
+    "id": 5,
+    "matricule": "MEF-04825",
+    "nom": "Chraibi",
+    "direction": "DSI",
+    "conges": []
+  },
+  {
+    "id": 6,
+    "matricule": "MEF-04826",
+    "nom": "Fassi",
+    "direction": "DAF",
+    "conges": []
+  },
+  {
+    "id": 7,
+    "matricule": "MEF-04827",
+    "nom": "Tazi",
+    "direction": "DRH",
+    "conges": []
+  },
+  {
+    "id": 8,
+    "matricule": "MEF-04828",
+    "nom": "Berrada",
+    "direction": "DSI",
+    "conges": []
+  }
+]
