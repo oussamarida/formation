@@ -1,6 +1,7 @@
 // Point d'entrée : configure Express, connecte Oracle via TypeORM et démarre l'API
 import "reflect-metadata";
 import "dotenv/config";
+import cors from "cors";
 import express from "express";
 import type { NextFunction, Request, Response } from "express";
 import agentRoutes from "./route/agentRoutes.js";
@@ -10,6 +11,14 @@ import { AppDataSource } from "./database/data-source.js";
 
 const app = express();
 const PORT = 3001;
+
+const corsOrigin = process.env.CORS_ORIGIN;
+app.use(
+  cors({
+    origin: corsOrigin ? corsOrigin.split(",").map((origin) => origin.trim()) : true,
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 
