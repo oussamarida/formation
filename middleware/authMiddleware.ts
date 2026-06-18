@@ -1,13 +1,13 @@
-import type { Request, Response } from "express";
+import type { NextFunction, Request, Response } from "express";
 import * as authService from "../service/authService.js";
 
-// Vérifie le header Authorization: Bearer <token> — à appeler dans les controllers (pas de middleware)
-export function requireAuth(req: Request, res: Response): string | null {
+// Middleware : vérifie Authorization: Bearer <token> avant d'atteindre les controllers
+export function authMiddleware(req: Request, res: Response, next: NextFunction): void {
   const header = req.headers.authorization;
 
   if (!header?.startsWith("Bearer ")) {
     res.status(401).json({ message: "Unauthorized — Bearer token required" });
-    return null;
+    return;
   }
 
   const token = header.slice("Bearer ".length).trim();
@@ -15,8 +15,9 @@ export function requireAuth(req: Request, res: Response): string | null {
 
   if (!username) {
     res.status(401).json({ message: "Unauthorized — invalid or expired token" });
-    return null;
+    return;
   }
 
-  return username;
+  req.username = username;
+  next();
 }
