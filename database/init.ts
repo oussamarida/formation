@@ -4,8 +4,10 @@ import fs from "fs";
 import { AppDataSource } from "./data-source.js";
 import { AgentEntity } from "./entities/Agent.js";
 import { CongeEntity } from "./entities/Conge.js";
+import { seedUsersIfEmpty } from "./seedUsers.js";
 import type { Agent } from "../types/agent.js";
 
+// Insère les données initiales depuis agents.json si les tables sont vides
 async function seedIfEmpty(): Promise<void> {
   const agentRepo = AppDataSource.getRepository(AgentEntity);
   const congeRepo = AppDataSource.getRepository(CongeEntity);
@@ -51,10 +53,12 @@ async function seedIfEmpty(): Promise<void> {
   console.log(`Seeded ${agents.length} agents and ${finalCongeCount} conges`);
 }
 
+// Script d'initialisation : crée les tables TypeORM et remplit les données
 async function main(): Promise<void> {
   try {
     await AppDataSource.initialize();
     console.log("TypeORM connected — tables created/updated from entities");
+    await seedUsersIfEmpty();
     await seedIfEmpty();
   } catch (error) {
     console.error("Database init failed:", error);

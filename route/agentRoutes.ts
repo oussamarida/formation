@@ -1,3 +1,4 @@
+// Définit les routes HTTP pour les agents (GET, POST, PUT, DELETE)
 import express from "express";
 import * as agentController from "../controller/agentController.js";
 

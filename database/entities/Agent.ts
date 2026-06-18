@@ -4,8 +4,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import type { CongeEntity } from "./Conge.js";
 
+// Entité TypeORM : table agents (id, matricule, nom, direction)
 @Entity("agents")
 export class AgentEntity {
   @PrimaryGeneratedColumn()
@@ -21,5 +21,5 @@ export class AgentEntity {
   direction!: string;
 
   @OneToMany("CongeEntity", "agent", { cascade: true })
-  conges!: CongeEntity[];
+  conges!: import("./Conge.js").CongeEntity[];
 }

@@ -11,6 +11,7 @@ const poolConfig: oracledb.PoolAttributes = {
 
 let poolInitialized = false;
 
+// Crée le pool de connexions Oracle au démarrage
 export async function initOraclePool(): Promise<void> {
   if (poolInitialized) return;
 
@@ -25,6 +26,7 @@ export async function initOraclePool(): Promise<void> {
   poolInitialized = true;
 }
 
+// Retourne le pool Oracle actif
 export function getPool(): oracledb.Pool {
   if (!poolInitialized) {
     throw new Error("Oracle pool not initialized. Call initOraclePool() first.");
@@ -32,10 +34,12 @@ export function getPool(): oracledb.Pool {
   return oracledb.getPool();
 }
 
+// Obtient une connexion depuis le pool Oracle
 export async function getConnection(): Promise<oracledb.Connection> {
   return getPool().getConnection();
 }
 
+// Exécute une requête SQL et retourne les lignes résultat
 export async function executeQuery<T = Record<string, unknown>>(
   sql: string,
   binds: oracledb.BindParameters = {},
@@ -54,6 +58,7 @@ export async function executeQuery<T = Record<string, unknown>>(
   }
 }
 
+// Ferme le pool de connexions Oracle
 export async function closeOraclePool(): Promise<void> {
   if (!poolInitialized) return;
 

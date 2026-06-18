@@ -5,8 +5,8 @@ import {
   ManyToOne,
   PrimaryColumn,
 } from "typeorm";
-import type { AgentEntity } from "./Agent.js";
 
+// Entité TypeORM : table conges liée à un agent (type, dates, jours, statut)
 @Entity("conges")
 export class CongeEntity {
   @PrimaryColumn({ type: "varchar2", length: 20 })
@@ -29,5 +29,5 @@ export class CongeEntity {
 
   @ManyToOne("AgentEntity", "conges", { onDelete: "CASCADE" })
   @JoinColumn({ name: "agent_id" })
-  agent!: AgentEntity;
+  agent!: import("./Agent.js").AgentEntity;
 }

@@ -1,3 +1,4 @@
+// Définit la route HTTP GET pour lister les directions
 import express from "express";
 import * as directionController from "../controller/directionController.js";
 

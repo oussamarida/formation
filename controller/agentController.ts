@@ -1,18 +1,24 @@
 import type { Request, Response } from "express";
 import { VALID_DIRECTIONS, type Direction } from "../types/agent.js";
 import { parseId } from "../utils/parseId.js";
+import { requireAuth } from "../utils/requireAuth.js";
 import * as agentService from "../service/agentService.js";
 
+// Vérifie si une direction est valide (DRH, DSI ou DAF)
 function isValidDirection(value: string): value is Direction {
   return VALID_DIRECTIONS.includes(value as Direction);
 }
 
+// Extrait et valide l'id numérique depuis les paramètres URL Express
 function parseRequestId(idParam: string | string[] | undefined): number | null {
   if (typeof idParam !== "string") return null;
   return parseId(idParam);
 }
 
+// GET /api/agents — liste tous les agents ou filtre par ?direction=
 export async function getAllAgents(req: Request, res: Response): Promise<void> {
+  if (!requireAuth(req, res)) return;
+
   const direction = req.query.direction as string | undefined;
 
   if (direction && !isValidDirection(direction)) {
@@ -27,7 +33,10 @@ export async function getAllAgents(req: Request, res: Response): Promise<void> {
   res.json(agents);
 }
 
+// GET /api/agents/:id — retourne un agent par son id
 export async function getAgentById(req: Request, res: Response): Promise<void> {
+  if (!requireAuth(req, res)) return;
+
   const id = parseRequestId(req.params.id);
   if (!id) {
     res.status(400).json({ message: "Bad request — invalid id" });
@@ -43,7 +52,10 @@ export async function getAgentById(req: Request, res: Response): Promise<void> {
   res.json(agent);
 }
 
+// GET /api/agents/:id/conges — retourne les congés d'un agent
 export async function getCongesById(req: Request, res: Response): Promise<void> {
+  if (!requireAuth(req, res)) return;
+
   const id = parseRequestId(req.params.id);
   if (!id) {
     res.status(400).json({ message: "Bad request — invalid id" });
@@ -59,7 +71,10 @@ export async function getCongesById(req: Request, res: Response): Promise<void> 
   res.json(conges);
 }
 
+// POST /api/agents — crée un nouvel agent
 export async function createAgent(req: Request, res: Response): Promise<void> {
+  if (!requireAuth(req, res)) return;
+
   const { matricule, nom, direction } = req.body;
 
   if (!matricule || !nom) {
@@ -81,7 +96,10 @@ export async function createAgent(req: Request, res: Response): Promise<void> {
   res.status(201).json(agent);
 }
 
+// PUT /api/agents/:id — modifie un agent existant
 export async function updateAgent(req: Request, res: Response): Promise<void> {
+  if (!requireAuth(req, res)) return;
+
   const id = parseRequestId(req.params.id);
   if (!id) {
     res.status(400).json({ message: "Bad request — invalid id" });
@@ -107,7 +125,10 @@ export async function updateAgent(req: Request, res: Response): Promise<void> {
   res.json(agent);
 }
 
+// DELETE /api/agents/:id — supprime un agent
 export async function deleteAgent(req: Request, res: Response): Promise<void> {
+  if (!requireAuth(req, res)) return;
+
   const id = parseRequestId(req.params.id);
   if (!id) {
     res.status(400).json({ message: "Bad request — invalid id" });

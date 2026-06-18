@@ -1,0 +1,19 @@
+services:
+  oracle:
+    image: gvenzl/oracle-free:23-slim-faststart
+    container_name: agents-oracle
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: Oracle123
+    volumes:
+      - oracle-data:/opt/oracle/oradata
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 90s
+
+volumes:
+  oracle-data:
