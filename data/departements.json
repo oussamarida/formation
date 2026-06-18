@@ -1,0 +1,14 @@
+[
+  {
+    "code": "DRH",
+    "nom": "Direction des Ressources Humaines"
+  },
+  {
+    "code": "DSI",
+    "nom": "Direction des Systèmes d'Information"
+  },
+  {
+    "code": "DAF",
+    "nom": "Direction Administrative et Financière"
+  }
+]

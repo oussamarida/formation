@@ -3,7 +3,7 @@
     "id": 1,
     "matricule": "MEF-04821",
     "nom": "El Mansouri",
-    "direction": "DRH",
+    "departement": "DRH",
     "conges": [
       {
         "id": "C001",
@@ -19,7 +19,7 @@
     "id": 2,
     "matricule": "MEF-04822",
     "nom": "Benali",
-    "direction": "DSI",
+    "departement": "DSI",
     "conges": [
       {
         "id": "C002",
@@ -35,42 +35,42 @@
     "id": 3,
     "matricule": "MEF-04823",
     "nom": "Alaoui",
-    "direction": "DAF",
+    "departement": "DAF",
     "conges": []
   },
   {
     "id": 4,
     "matricule": "MEF-04824",
     "nom": "Idrissi",
-    "direction": "DRH",
+    "departement": "DRH",
     "conges": []
   },
   {
     "id": 5,
     "matricule": "MEF-04825",
     "nom": "Chraibi",
-    "direction": "DSI",
+    "departement": "DSI",
     "conges": []
   },
   {
     "id": 6,
     "matricule": "MEF-04826",
     "nom": "Fassi",
-    "direction": "DAF",
+    "departement": "DAF",
     "conges": []
   },
   {
     "id": 7,
     "matricule": "MEF-04827",
     "nom": "Tazi",
-    "direction": "DRH",
+    "departement": "DRH",
     "conges": []
   },
   {
     "id": 8,
     "matricule": "MEF-04828",
     "nom": "Berrada",
-    "direction": "DSI",
+    "departement": "DSI",
     "conges": []
   }
 ]

@@ -1,11 +1,11 @@
 import type { Request, Response } from "express";
-import { VALID_DIRECTIONS, type Direction } from "../types/agent.js";
+import { VALID_DEPARTEMENT_CODES, type DepartementCode } from "../types/departement.js";
 import { parseId } from "../utils/parseId.js";
 import * as agentService from "../service/agentService.js";
 
-// Vérifie si une direction est valide (DRH, DSI ou DAF)
-function isValidDirection(value: string): value is Direction {
-  return VALID_DIRECTIONS.includes(value as Direction);
+// Vérifie si un code département est valide (DRH, DSI ou DAF)
+function isValidDepartementCode(value: string): value is DepartementCode {
+  return VALID_DEPARTEMENT_CODES.includes(value as DepartementCode);
 }
 
 // Extrait et valide l'id numérique depuis les paramètres URL Express
@@ -14,17 +14,19 @@ function parseRequestId(idParam: string | string[] | undefined): number | null {
   return parseId(idParam);
 }
 
-// GET /api/agents — liste tous les agents ou filtre par ?direction=
+// GET /api/agents — liste tous les agents ou filtre par ?departement=
 export async function getAllAgents(req: Request, res: Response): Promise<void> {
-  const direction = req.query.direction as string | undefined;
+  const departement =
+    (req.query.departement as string | undefined) ??
+    (req.query.direction as string | undefined);
 
-  if (direction && !isValidDirection(direction)) {
-    res.status(400).json({ message: "Bad request — invalid direction" });
+  if (departement && !isValidDepartementCode(departement)) {
+    res.status(400).json({ message: "Bad request — invalid departement code" });
     return;
   }
 
-  const agents = direction
-    ? await agentService.getAgentsByDirection(direction)
+  const agents = departement
+    ? await agentService.getAgentsByDepartement(departement)
     : await agentService.getAllAgents();
 
   res.json(agents);
@@ -66,21 +68,22 @@ export async function getCongesById(req: Request, res: Response): Promise<void> 
 
 // POST /api/agents — crée un nouvel agent
 export async function createAgent(req: Request, res: Response): Promise<void> {
-  const { matricule, nom, direction } = req.body;
+  const { matricule, nom, departement, departementCode, direction } = req.body;
+  const code = departementCode ?? departement ?? direction;
 
   if (!matricule || !nom) {
     res.status(400).json({ message: "Bad request — matricule and nom required" });
     return;
   }
 
-  if (direction && !isValidDirection(direction)) {
-    res.status(400).json({ message: "Bad request — invalid direction" });
+  if (code && !isValidDepartementCode(code)) {
+    res.status(400).json({ message: "Bad request — invalid departement code" });
     return;
   }
 
-  const agent = await agentService.createAgent({ matricule, nom, direction });
+  const agent = await agentService.createAgent({ matricule, nom, departementCode: code });
   if (!agent) {
-    res.status(409).json({ message: "Conflict — matricule already exists" });
+    res.status(409).json({ message: "Conflict — matricule already exists or invalid departement" });
     return;
   }
 
@@ -100,14 +103,19 @@ export async function updateAgent(req: Request, res: Response): Promise<void> {
     return;
   }
 
-  if (req.body.direction && !isValidDirection(req.body.direction)) {
-    res.status(400).json({ message: "Bad request — invalid direction" });
+  const code = req.body.departementCode ?? req.body.departement ?? req.body.direction;
+  if (code && !isValidDepartementCode(code)) {
+    res.status(400).json({ message: "Bad request — invalid departement code" });
     return;
   }
 
-  const agent = await agentService.updateAgent(id, req.body);
+  const agent = await agentService.updateAgent(id, {
+    matricule: req.body.matricule,
+    nom: req.body.nom,
+    departementCode: code,
+  });
   if (!agent) {
-    res.status(404).json({ message: "Not found — agent does not exist" });
+    res.status(404).json({ message: "Not found — agent does not exist or invalid departement" });
     return;
   }
 

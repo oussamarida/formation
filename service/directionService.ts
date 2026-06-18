@@ -1,7 +1,7 @@
-import { getAllAgents } from "./agentService.js";
+import * as departementService from "./departementService.js";
 
-// Retourne la liste unique et triée de toutes les directions depuis les agents
+// Retourne la liste des codes département (compatibilité /api/directions)
 export async function getAllDirections(): Promise<string[]> {
-  const agents = await getAllAgents();
-  return [...new Set(agents.map((agent) => agent.direction))].sort();
+  const departements = await departementService.getAllDepartements();
+  return departements.map((departement) => departement.code);
 }

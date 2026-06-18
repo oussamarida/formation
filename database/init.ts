@@ -4,13 +4,16 @@ import fs from "fs";
 import { AppDataSource } from "./data-source.js";
 import { AgentEntity } from "./entities/Agent.js";
 import { CongeEntity } from "./entities/Conge.js";
+import { DepartementEntity } from "./entities/Departement.js";
+import { seedDepartementsIfEmpty } from "./seedDepartements.js";
 import { seedUsersIfEmpty } from "./seedUsers.js";
-import type { Agent } from "../types/agent.js";
+import type { SeedAgent } from "../types/agent.js";
 
 // Insère les données initiales depuis agents.json si les tables sont vides
 async function seedIfEmpty(): Promise<void> {
   const agentRepo = AppDataSource.getRepository(AgentEntity);
   const congeRepo = AppDataSource.getRepository(CongeEntity);
+  const departementRepo = AppDataSource.getRepository(DepartementEntity);
   const agentCount = await agentRepo.count();
   const congeCount = await congeRepo.count();
 
@@ -24,14 +27,19 @@ async function seedIfEmpty(): Promise<void> {
     await agentRepo.clear();
   }
 
-  const agents = JSON.parse(fs.readFileSync("data/agents.json", "utf-8")) as Agent[];
+  const agents = JSON.parse(fs.readFileSync("data/agents.json", "utf-8")) as SeedAgent[];
 
   for (const agentData of agents) {
+    const departementCode = agentData.departement ?? (agentData as { direction?: string }).direction;
+    const departement = departementCode
+      ? await departementRepo.findOne({ where: { code: departementCode } })
+      : null;
+
     const agent = agentRepo.create({
       id: agentData.id,
       matricule: agentData.matricule,
       nom: agentData.nom,
-      direction: agentData.direction,
+      departement,
     });
     await agentRepo.save(agent);
 
@@ -59,6 +67,7 @@ async function main(): Promise<void> {
     await AppDataSource.initialize();
     console.log("TypeORM connected — tables created/updated from entities");
     await seedUsersIfEmpty();
+    await seedDepartementsIfEmpty();
     await seedIfEmpty();
   } catch (error) {
     console.error("Database init failed:", error);

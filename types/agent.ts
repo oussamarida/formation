@@ -1,3 +1,5 @@
+import type { Departement } from "./departement.js";
+
 export interface Conge {
   id: string;
   type: string;
@@ -11,10 +13,14 @@ export interface Agent {
   id: number;
   matricule: string;
   nom: string;
-  direction: string;
+  departement: Departement | null;
   conges: Conge[];
 }
 
-export type Direction = "DRH" | "DSI" | "DAF";
-
-export const VALID_DIRECTIONS: Direction[] = ["DRH", "DSI", "DAF"];
+export interface SeedAgent {
+  id: number;
+  matricule: string;
+  nom: string;
+  departement: string;
+  conges: Conge[];
+}
