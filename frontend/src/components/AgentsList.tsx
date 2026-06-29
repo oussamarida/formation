@@ -39,6 +39,7 @@ export default function AgentsList() {
       setLoading(true);
       try {
         const data = await getAgents(filter === "all" ? undefined : filter);
+        console.log(data[0].conges);
         setAgents(data);
       } catch {
         toast.error("Impossible de charger les agents");

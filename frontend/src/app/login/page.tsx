@@ -27,7 +27,7 @@ export default function LoginPage() {
     try {
       const response = await login(username, password);
       setToken(response.token);
-      router.push("/agents");
+       router.push("/agents");
     } catch {
       toast.error("Identifiants invalides");
     } finally {
@@ -42,9 +42,7 @@ export default function LoginPage() {
           <CardTitle>Connexion</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="mb-4 text-sm text-muted-foreground">
-            Manager: admin/admin ou manager/manager — Client: client/client
-          </p>
+     
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
