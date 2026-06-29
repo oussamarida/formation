@@ -1,4 +1,4 @@
-export type UserRole = "admin" | "user";
+export type UserRole = "manager" | "client";
 
 export interface User {
   id: number;
@@ -11,3 +11,8 @@ export interface SeedUser {
   password: string;
   role?: UserRole;
 }
+
+export const USER_ROLES = {
+  MANAGER: "manager",
+  CLIENT: "client",
+} as const;

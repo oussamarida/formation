@@ -23,8 +23,12 @@ export function createToken(
   return { token, expiresIn: TOKEN_TTL_MS / 1000, username, role };
 }
 
-// Vérifie le token et retourne le username, ou null si invalide/expiré
-export function verifyToken(token: string): string | null {
+// Vérifie le token et retourne le payload complet, ou null si invalide/expiré
+export function verifyTokenPayload(token: string): {
+  sub: string;
+  role: UserRole;
+  exp: number;
+} | null {
   const [body, signature] = token.split(".");
   if (!body || !signature) return null;
 
@@ -39,13 +43,19 @@ export function verifyToken(token: string): string | null {
   try {
     const payload = JSON.parse(Buffer.from(body, "base64url").toString()) as {
       sub: string;
+      role: UserRole;
       exp: number;
     };
-    if (!payload.sub || payload.exp < Date.now()) return null;
-    return payload.sub;
+    if (!payload.sub || !payload.role || payload.exp < Date.now()) return null;
+    return payload;
   } catch {
     return null;
   }
+}
+
+// Vérifie le token et retourne le username, ou null si invalide/expiré
+export function verifyToken(token: string): string | null {
+  return verifyTokenPayload(token)?.sub ?? null;
 }
 
 // Authentifie username/password contre la table users

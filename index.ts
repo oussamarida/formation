@@ -7,7 +7,6 @@ import type { NextFunction, Request, Response } from "express";
 import agentRoutes from "./route/agentRoutes.js";
 import authRoutes from "./route/authRoutes.js";
 import departementRoutes from "./route/departementRoutes.js";
-import directionRoutes from "./route/directionRoutes.js";
 import { AppDataSource } from "./database/data-source.js";
 
 const app = express();
@@ -30,7 +29,6 @@ app.get("/", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/agents", agentRoutes);
 app.use("/api/departements", departementRoutes);
-app.use("/api/directions", directionRoutes);
 
 // Handles invalid JSON payloads (Express `express.json()` throws a SyntaxError).
 app.use((err: unknown, _req: Request, res: Response, _next: NextFunction) => {

@@ -12,6 +12,6 @@ export class UserEntity {
   @Column({ type: "varchar2", length: 200, name: "password_hash" })
   passwordHash!: string;
 
-  @Column({ type: "varchar2", length: 20, default: "user" })
+  @Column({ type: "varchar2", length: 20, default: "client" })
   role!: string;
 }

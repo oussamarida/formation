@@ -11,7 +11,8 @@
     "db:up": "docker compose up -d",
     "db:down": "docker compose down",
     "db:logs": "docker compose logs -f oracle",
-    "db:init": "tsx database/init.ts"
+    "db:init": "tsx database/init.ts",
+    "db:seed-users": "tsx database/seed-users.ts"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",

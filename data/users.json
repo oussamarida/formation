@@ -2,7 +2,16 @@
   {
     "username": "admin",
     "password": "admin",
-    "role": "admin"
+    "role": "manager"
+  },
+  {
+    "username": "manager",
+    "password": "manager",
+    "role": "manager"
+  },
+  {
+    "username": "client",
+    "password": "client",
+    "role": "client"
   }
-
 ]

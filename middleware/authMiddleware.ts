@@ -18,6 +18,5 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
     return;
   }
 
-  req.username = username;
   next();
 }

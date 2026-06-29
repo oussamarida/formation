@@ -31,11 +31,19 @@ export async function authenticate(username: string, password: string): Promise<
   return toUser(user);
 }
 
-// Crée un utilisateur avec mot de passe hashé (utilisé par le seeder)
+// Met à jour le mot de passe d'un utilisateur existant (utilisé par le seeder)
+export async function resetPassword(username: string, password: string): Promise<void> {
+  const user = await findByUsername(username);
+  if (!user) return;
+
+  user.passwordHash = await hashPassword(password);
+  await userRepository().save(user);
+}
+
 export async function createUser({
   username,
   password,
-  role = "user",
+  role = "client",
 }: {
   username: string;
   password: string;
