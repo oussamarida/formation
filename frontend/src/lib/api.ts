@@ -6,6 +6,7 @@ import type {
   CreateAgentInput,
   Departement,
   LoginResponse,
+  AuthUser,
   UpdateAgentInput,
 } from "@/types";
 
@@ -37,6 +38,11 @@ api.interceptors.response.use(
 
 export async function login(username: string, password: string): Promise<LoginResponse> {
   const { data } = await api.post<LoginResponse>("/api/auth/login", { username, password });
+  return data;
+}
+
+export async function getMe(): Promise<AuthUser> {
+  const { data } = await api.get<AuthUser>("/api/auth/me");
   return data;
 }
 

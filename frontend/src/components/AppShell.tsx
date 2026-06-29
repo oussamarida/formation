@@ -30,7 +30,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <div className="flex items-center gap-3">
             {user && (
               <>
-                <span className="text-sm font-medium">{user.sub}</span>
+                <span className="text-sm font-medium">{user.username}</span>
                 <Badge variant="secondary">{user.role}</Badge>
               </>
             )}

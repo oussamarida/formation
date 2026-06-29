@@ -31,6 +31,12 @@ export async function authenticate(username: string, password: string): Promise<
   return toUser(user);
 }
 
+// Retourne l'utilisateur depuis Oracle par username
+export async function getUserByUsername(username: string): Promise<User | null> {
+  const user = await findByUsername(username);
+  return user ? toUser(user) : null;
+}
+
 // Met à jour le mot de passe d'un utilisateur existant (utilisé par le seeder)
 export async function resetPassword(username: string, password: string): Promise<void> {
   const user = await findByUsername(username);

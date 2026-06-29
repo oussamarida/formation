@@ -28,6 +28,12 @@ export interface LoginResponse {
   role: string;
 }
 
+export interface AuthUser {
+  id: number;
+  username: string;
+  role: string;
+}
+
 export interface CreateAgentInput {
   matricule: string;
   nom: string;

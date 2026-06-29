@@ -1,31 +1,37 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  clearToken,
-  decodeToken,
-  getToken,
-  isTokenExpired,
-  type TokenPayload,
-} from "@/lib/authStorage";
+import { getMe } from "@/lib/api";
+import { clearToken, getToken, isTokenExpired } from "@/lib/authStorage";
 import { ROLES } from "@/lib/roles";
+import type { AuthUser } from "@/types";
 
-function readUserFromStorage(): TokenPayload | null {
-  const token = getToken();
-  if (!token || isTokenExpired(token)) {
-    clearToken();
-    return null;
-  }
-  return decodeToken(token);
-}
-
-export function useAuth(): TokenPayload | null {
-  const [user, setUser] = useState<TokenPayload | null>(null);
+export function useAuth(): AuthUser | null {
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    setUser(readUserFromStorage());
-    setReady(true);
+    async function loadUserFromDatabase() {
+      const token = getToken();
+      if (!token || isTokenExpired(token)) {
+        clearToken();
+        setUser(null);
+        setReady(true);
+        return;
+      }
+
+      try {
+        const me = await getMe();
+        setUser(me);
+      } catch {
+        clearToken();
+        setUser(null);
+      } finally {
+        setReady(true);
+      }
+    }
+
+    loadUserFromDatabase();
   }, []);
 
   if (!ready) return null;

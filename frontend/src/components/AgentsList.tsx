@@ -69,7 +69,7 @@ export default function AgentsList() {
         <div>
           <h1 className="text-2xl font-semibold">Agents</h1>
           <p className="text-sm text-muted-foreground">
-            Connecté en tant que {user.sub} ({user.role})
+            Connecté en tant que {user.username} ({user.role})
           </p>
         </div>
         <div className="flex gap-2">

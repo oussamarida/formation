@@ -1,6 +1,6 @@
 import crypto from "crypto";
 import * as userService from "./userService.js";
-import type { UserRole } from "../types/user.js";
+import type { User, UserRole } from "../types/user.js";
 
 const TOKEN_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -67,4 +67,11 @@ export async function login(
   if (!user) return null;
 
   return createToken(user.username, user.role);
+}
+
+// Retourne l'utilisateur courant depuis Oracle (via le token)
+export async function getCurrentUser(token: string): Promise<User | null> {
+  const payload = verifyTokenPayload(token);
+  if (!payload) return null;
+  return userService.getUserByUsername(payload.sub);
 }
