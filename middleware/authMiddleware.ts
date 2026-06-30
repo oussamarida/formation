@@ -11,6 +11,11 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
   }
 
   const token = header.slice("Bearer ".length).trim();
+
+  console.log("token backend",token);
+
+
+
   const username = authService.verifyToken(token);
 
   if (!username) {

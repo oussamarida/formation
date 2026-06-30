@@ -60,7 +60,9 @@ function agentRepository() {
 
 // Récupère tous les agents avec leurs congés depuis Oracle
 export async function getAllAgents(): Promise<Agent[]> {
+  console.log("agents (1) service backend");
   const agents = await agentRepository().find({ relations: agentRelations });
+  console.log("agents (2) service backend",agents);
   return agents.map(toAgent);
 }
 

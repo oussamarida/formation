@@ -16,6 +16,7 @@ function parseRequestId(idParam: string | string[] | undefined): number | null {
 
 // GET /api/agents — liste tous les agents ou filtre par ?departement=
 export async function getAllAgents(req: Request, res: Response): Promise<void> {
+  console.log("agents (1) controller backend");
   const departement =
     (req.query.departement as string | undefined) ??
     (req.query.direction as string | undefined);
@@ -28,7 +29,7 @@ export async function getAllAgents(req: Request, res: Response): Promise<void> {
   const agents = departement
     ? await agentService.getAgentsByDepartement(departement)
     : await agentService.getAllAgents();
-
+  console.log("agents (2) controller backend",agents);
   res.json(agents);
 }
 
